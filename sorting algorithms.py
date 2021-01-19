@@ -1,7 +1,7 @@
 numbers = [99, 44, 6, 2, 1, 5, 63, 87, 283, 4, 0]
 
 
-# Basic implementation of selection sort for an array, pretty inefficient
+# 1.Basic implementation of selection sort for an array, pretty inefficient
 def selection_sort(array):
     for i in range(len(array)):
         # Until proven otherwise i is the min (used to both initialize the values and skip the first iteration
@@ -19,7 +19,7 @@ def selection_sort(array):
     return array
 
 
-# Bubble sort, also pretty inefficient
+# 2.Bubble sort, also pretty inefficient
 def bubble_sort(array):
     for max_index in reversed(range(len(numbers))):
         for curr_index in range(max_index):
@@ -31,7 +31,7 @@ def bubble_sort(array):
     return array
 
 
-# Algorithm for when you know list is sorted or almost sorted (can get O(n))
+# 3.Algorithm for when you know list is sorted or almost sorted (can get O(n))
 def insertion_sort(array):
     if len(array) < 2:
         return array  # exit here, nothing to sort
@@ -45,7 +45,7 @@ def insertion_sort(array):
     return array
 
 
-# Merge sort!
+# 4.Merge sort!
 def merge_sort(array):
     length = len(array)
 
@@ -78,7 +78,43 @@ def merge(left, right):
             return array
 
 
+# 5.Quick Sort algorithm
+def quick_sort(array, left_index=0, right_index=None):
+    if not right_index:
+        right_index = len(array) - 1
+
+    if left_index < right_index:
+        pivot_index = right_index
+        new_pivot_index = partition(array, pivot_index, left_index, right_index)
+
+        quick_sort(array, left_index, new_pivot_index - 1)
+        quick_sort(array, new_pivot_index + 1, right_index)
+
+    return array
+
+
+def partition(array, pivot_index, left_index, right_index):
+    pivot_value = array[pivot_index]
+    pivot_index = left_index
+
+    for i in range(left_index, right_index):
+        if array[i] < pivot_value:
+            swap(array, i, pivot_index)
+            pivot_index += 1
+
+    swap(array, right_index, pivot_index)
+
+    return pivot_index
+
+
+def swap(array, first_index, second_index):
+    temp = array[first_index]
+    array[first_index] = array[second_index]
+    array[second_index] = temp
+
+
 # print(selection_sort(numbers))
 # print(bubble_sort(numbers))
 # print(insertion_sort(numbers))
-print(merge_sort(numbers))
+# print(merge_sort(numbers))
+print(quick_sort(numbers))
