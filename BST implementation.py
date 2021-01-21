@@ -1,5 +1,12 @@
 # Exercise of implementing a BST from scratch
 from queue import Queue
+from enum import Enum
+
+
+class DFS(Enum):
+    PREORDER = 1
+    INORDER = 2
+    POSTORDER = 3
 
 
 class Node:
@@ -120,8 +127,14 @@ class BinarySearchTree:
             print('BFS: ')
             print_bfs(self.root)
             print()
-            print('DFS: ')
-            print_dfs(self.root)
+            print('DFS Preorder (useful to re-create tree, parent first): ')
+            print_dfs(self.root, DFS.PREORDER)
+            print()
+            print('DFS Inorder (ordered for BST: ')
+            print_dfs(self.root, DFS.INORDER)
+            print()
+            print('DFS Postorder (children first): ')
+            print_dfs(self.root, DFS.POSTORDER)
 
 
 # Breadth-First Search\Traversal
@@ -141,12 +154,19 @@ def print_bfs(curr_node):
                 node_queue.put(curr_node.right)
 
 
-# Depth-First Search\Traversal
-def print_dfs(curr_node):
+# Depth-First Search\Traversal (preorder)
+def print_dfs(curr_node, order):
+
+    def print_if_needed(curr_order):
+        if order == curr_order:
+            print(str(curr_node.value))
+
     if curr_node is not None:
-        print(str(curr_node.value))
-        print_dfs(curr_node.left)
-        print_dfs(curr_node.right)
+        print_if_needed(DFS.PREORDER)
+        print_dfs(curr_node.left, order)
+        print_if_needed(DFS.INORDER)
+        print_dfs(curr_node.right, order)
+        print_if_needed(DFS.POSTORDER)
 
 
 tree = BinarySearchTree()
