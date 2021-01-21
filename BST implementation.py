@@ -1,4 +1,5 @@
 # Exercise of implementing a BST from scratch
+from queue import Queue
 
 
 class Node:
@@ -116,13 +117,36 @@ class BinarySearchTree:
 
     def print_tree(self):
         if self.root is not None:
-            self.print_node(self.root)
+            print('BFS: ')
+            print_bfs(self.root)
+            print()
+            print('DFS: ')
+            print_dfs(self.root)
 
-    def print_node(self, curr_node):
-        if curr_node is not None:
-            self.print_node(curr_node.left)
+
+# Breadth-First Search\Traversal
+def print_bfs(curr_node):
+    if curr_node is not None:
+        node_queue = Queue()
+        node_queue.put(curr_node)
+
+        while not node_queue.empty():
+            curr_node = node_queue.get()
             print(str(curr_node.value))
-            self.print_node(curr_node.right)
+
+            if curr_node.left:
+                node_queue.put(curr_node.left)
+
+            if curr_node.right:
+                node_queue.put(curr_node.right)
+
+
+# Depth-First Search\Traversal
+def print_dfs(curr_node):
+    if curr_node is not None:
+        print(str(curr_node.value))
+        print_dfs(curr_node.left)
+        print_dfs(curr_node.right)
 
 
 tree = BinarySearchTree()
@@ -134,7 +158,7 @@ tree.insert(170)
 tree.insert(15)
 tree.insert(1)
 tree.print_tree()
-tree.remove(9)
-tree.print_tree()
+# tree.remove(9)
+# tree.print_tree()
 # tree.remove(6)
 # tree.print_tree()
